@@ -37,30 +37,37 @@ Här är ett exempel på det:
 ```javascript
 
 const Profile = () => {
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState(null); // State för användarens profil
 
   useEffect(async () => {
     try {
-      const data = await fetchUserProfile();  
-      setProfile(data); 
-      }
-  }, []);  // Effekt körs bara en gång, när komponenten mountas
+      const data = await fetchUserProfile();  // Hämtar data asynkront från API
+      setProfile(data); // Uppdaterar state med data från API
+    } catch (err) {
+      setError('Något gick fel vid hämtning av profilen');
+    }
+  }, []);  // Effekt körs bara en gång när komponenten mountas
 
-  if (loading) {
+  if (loading) { // Laddningsindikator
     return <div>Laddar...</div>;
   }
 
-  if (error) {
+  if (error) { // Hantering av fel
     return <div>{error}</div>;
   }
 
   return (
     <div>
-      <h1>{profile.username}</h1>
-      <p>{profile.email}</p>
+      <h1>{profile.username}</h1> // Visar användarens namn
+      <p>{profile.email}</p> // Visar användarens e-post
     </div>
   );
 };
 
 export default Profile;
 ```
+
+### Vad användaren kan uppleva: 
+Du ser en tom eller delvis renderad profil (exempelvis bara en del av användarens namn eller ingen profilbild) medan datan hämtas,
+och den uppdateras senare när useEffect är klar. Detta kan skapa en ganska dålig användarupplevelse, eftersom användaren inte får
+den information de förväntar sig på en gång.
