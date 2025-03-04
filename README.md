@@ -29,7 +29,47 @@ Om useEffect teoretiskt sett tilläts vara asynkron, skulle det kunna orsaka en 
 både från teknisk och användarens synvinkel. För att förstå detta tydligt, låt oss gå igenom några möjliga 
 scenarier där användaren skulle kunna uppleva problem.
 
-Anta att vi har en komponent som hämtar användarens profilinformation från en server via ett API. Om useEffect är asynkron, 
-kan renderingen av komponenten (och visningen av data som hämtas via API:et) hända innan den är klar. Här är ett exempel på det:
+### Komponenten kan bli klar innan useEffect() är klar 
+Anta att vi har en komponent som hämtar användarens profilinformation från ett API. Om useEffect() är asynkron, 
+kan kan komponenten som ska visa profilinformationen bli klar innan useEffect() är klar. 
+Här är ett exempel på det:
 
-![image](https://github.com/user-attachments/assets/4453df6a-26bf-42ce-a642-706f220183c3)
+```javascript
+import React, { useState, useEffect } from 'react';
+import { fetchUserProfile } from './mockApi';  // En funktion som hämtar användarens profildata
+
+const Profile = () => {
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(async () => {
+    try {
+      const data = await fetchUserProfile();  
+      setProfile(data); 
+    } catch (err)
+{
+      setError('Något gick fel vid hämtning av profilen');
+    } finally {
+      setLoading(false); 
+    }
+  }, []);  // Effekt körs bara en gång, när komponenten mountas
+
+  if (loading) {
+    return <div>Laddar...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  return (
+    <div>
+      <h1>{profile.username}</h1>
+      <p>{profile.email}</p>
+    </div>
+  );
+};
+
+export default Profile;
+```
