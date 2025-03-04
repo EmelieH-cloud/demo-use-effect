@@ -35,24 +35,15 @@ kan kan komponenten som ska visa profilinformationen bli klar innan useEffect() 
 Här är ett exempel på det:
 
 ```javascript
-import React, { useState, useEffect } from 'react';
-import { fetchUserProfile } from './mockApi';  // En funktion som hämtar användarens profildata
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(async () => {
     try {
       const data = await fetchUserProfile();  
       setProfile(data); 
-    } catch (err)
-{
-      setError('Något gick fel vid hämtning av profilen');
-    } finally {
-      setLoading(false); 
-    }
+      }
   }, []);  // Effekt körs bara en gång, när komponenten mountas
 
   if (loading) {
