@@ -23,16 +23,19 @@ I denna demo används följande useEffect()-metod.
     fetchUsername();
   }, []); // Körs endast en gång när komponenten mountas
 ```
-## Varför useEffect() i sig själv inte får vara asynkron:
+## 1. Varför useEffect() i sig själv inte får vara asynkron:
 
 Om useEffect teoretiskt sett tilläts vara asynkron, skulle det kunna orsaka en rad potentiella problem,
-både från teknisk och användarens synvinkel. För att förstå detta tydligt, låt oss gå igenom några möjliga 
-scenarier där användaren skulle kunna uppleva problem.
+både från teknisk och användarens synvinkel. 
 
-### Komponenten kan bli klar innan useEffect() är klar 
+### 1.1 Komponenten kan bli klar innan useEffect() är klar 
 Anta att vi har en komponent som hämtar användarens profilinformation från ett API. Om useEffect() är asynkron, 
 kan kan komponenten som ska visa profilinformationen bli klar innan useEffect() är klar. 
-Här är ett exempel på det:
+
+### Vad användaren kan uppleva: 
+Du ser en tom eller delvis renderad profil (exempelvis bara en del av användarens namn eller ingen profilbild) medan datan hämtas,
+och den uppdateras senare när useEffect är klar. Detta kan skapa en ganska dålig användarupplevelse, eftersom användaren inte får
+den information de förväntar sig på en gång.
 
 ```javascript
 
@@ -67,7 +70,4 @@ const Profile = () => {
 export default Profile;
 ```
 
-### Vad användaren kan uppleva: 
-Du ser en tom eller delvis renderad profil (exempelvis bara en del av användarens namn eller ingen profilbild) medan datan hämtas,
-och den uppdateras senare när useEffect är klar. Detta kan skapa en ganska dålig användarupplevelse, eftersom användaren inte får
-den information de förväntar sig på en gång.
+
