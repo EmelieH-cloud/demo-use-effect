@@ -29,10 +29,7 @@ Om useEffect teoretiskt sett tilläts vara asynkron, skulle det kunna orsaka en 
 både från teknisk och användarens synvinkel. För att förstå detta tydligt, låt oss gå igenom några möjliga 
 scenarier där användaren skulle kunna uppleva problem.
 
-1. Rendering innan data är hämtad
-Om useEffect var asynkron och vi utförde ett API-anrop eller någon annan asynkron operation direkt i useEffect,
- skulle komponenten kunna renderas innan datan är hämtad.
-
-Teoretisk situation:
-Anta att vi har en komponent som hämtar användarens profilinformation från en server via ett API. Om useEffect är asynkron,
+Anta att vi har en komponent som hämtar användarens profilinformation från en server via ett API. Om useEffect är asynkron, 
 kan renderingen av komponenten (och visningen av data som hämtas via API:et) hända innan den är klar. Här är ett exempel på det:
+
+![image](https://github.com/user-attachments/assets/4453df6a-26bf-42ce-a642-706f220183c3)
